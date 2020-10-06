@@ -21,11 +21,13 @@ notifications are deployed.
 <img src ='./screenshots/addFriend.png'></img>
 <br>
 <img src ='./screenshots/friendspage.png'></img>
+<br>
 <p>
   Friend requests are sent in real time to users
   Declining a request does not notify whoever sent
   the friend request.
 </p>
+<br>
 <img src ='./screenshots/friendRequest.png'></img>
 <br>
 
