@@ -1,8 +1,8 @@
  .send-msg{
     position: fixed;
+    bottom: 0;
     width: 100%;
     background: #6262b4;
-    bottom: 0;
     padding: 15px;
     font-family: 'Tahoma';
 }

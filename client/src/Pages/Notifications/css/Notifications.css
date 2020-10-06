@@ -25,22 +25,6 @@
   cursor: pointer;
 }
 
-.notifs img{
-    width: 150px;
-    height: 150px;
-}
-.notifs p{
-  font-family: 'Balsamiq Sans';
-  font-size: 1.4rem;
-  margin-left: 10px;
-  margin-top: 50px;
-}
-
 .notifs h3{
   font-family: 'Balsamiq Sans';
-}
-
-.notifs .row:hover{
-  box-shadow: 0 0 1px black;
-  box-sizing: border-box;
 }

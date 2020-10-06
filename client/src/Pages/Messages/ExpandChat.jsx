@@ -6,7 +6,7 @@ import MessageBubble from './MessageBubble';
 import TypingBubble from './TypingBubble';
 import loading from '../../images/loading.jpg';
 import {io} from '../../App';
-import './ExpandChat.css';
+import './css/ExpandChat.css';
 
 class ExpandChat extends Component{
     constructor(){
@@ -71,9 +71,18 @@ class ExpandChat extends Component{
     }
 
     handleScroll(){
-        this.chatBox.scrollTop = this.chatBox.scrollHeight;
+        if(this.chatBox){
+            this.chatBox.scrollTop = this.chatBox.scrollHeight;
+        }
     }
     
+    componentWillUnmount(){
+        const {dispatch} = this.props;
+        const {clearTyping, clearChatOnDisplay} = msgActions;
+        
+        dispatch(clearTyping());
+        dispatch(clearChatOnDisplay());
+    }
 
     render(){
         const {uid, typingOnDisplay, isComposerChat, chatId} = this.props;
@@ -89,6 +98,7 @@ class ExpandChat extends Component{
                 content = {msg.content}
                 image = {msg.image}
                 readBy = {[...msg.readBy]}
+                timeSent = {msg.timeSent}
                 handleScroll = {this.handleScroll}
                 
             />
@@ -115,16 +125,18 @@ class ExpandChat extends Component{
                 }
 
                 <section className = 'chat-box' ref = {ele => this.chatBox = ele}>
-                    {messages}
+                    <div className='inner-chat-box'>
+                        {messages}
                     
-                    {typingOnDisplay.map(id =>
-                        <TypingBubble
-                            key = {id}
-                            uid = {id}
-                            show = {id !== uid}
-                            handleScroll = {this.handleScroll}
-                        />
-                    )}
+                        {typingOnDisplay.map(id =>
+                            <TypingBubble
+                                key = {id}
+                                uid = {id}
+                                show = {id !== uid}
+                                handleScroll = {this.handleScroll}
+                            />
+                        )}
+                    </div>
                 </section>
             </div>
         )

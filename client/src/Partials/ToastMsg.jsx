@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
 import {getUserData, loadProfilePic} from '../store/actions/profileActions';
 import loading from '../images/loading.jpg';
-import './ToastMsg.css';
+import './css/ToastMsg.css';
 
 // Toast Msg for new notification
 class ToastMsg extends Component{

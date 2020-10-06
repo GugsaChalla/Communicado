@@ -5,7 +5,6 @@ const mongoose = require('mongoose');
 const multer=require('multer');
 const path=require('path');
 const cors=require('cors');
-const cookieParser = require('cookie-parser');
 const express = require('express');
 const app = express();
 const socket = require('socket.io');
@@ -48,7 +47,6 @@ exports.msgPicUpload = multer({
 }).single('image');
 
 app.use(bodyParser.json());
-app.use(cookieParser());
 app.use(cors());
 
 app.use('/users', require('./routes/user'));

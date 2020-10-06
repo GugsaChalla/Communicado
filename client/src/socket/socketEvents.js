@@ -6,7 +6,6 @@ import {toast} from 'react-toastify';
 import ToastMsg from '../Partials/ToastMsg';
 import 'react-toastify/dist/ReactToastify.css';
 
-// R: -- ELLIOT/GUGSA
 export const handleSocketEvents = (io, dispatch) =>{
     
     io.on('FRIEND_REQUEST', data =>{
@@ -35,12 +34,6 @@ export const handleSocketEvents = (io, dispatch) =>{
         dispatch(updateOnlineFriends(data.friends));
     });
 
-    io.on('GET_RECIPIENTS', data =>{
-        const {getRecipients} =msgActions;
-        
-        dispatch(getRecipients(data.queryResult));
-    });
-
     io.on('CHAT_CREATED', data =>{
         const{loadChats}=msgActions;
 
@@ -62,8 +55,6 @@ export const handleSocketEvents = (io, dispatch) =>{
         dispatch(renderNewMessage(newMessage, chatId, uid));
 
         const members = await getMemberIds(chatId, uid);
-
-        console.log(members)
 
         io.emit('READ_RECEIPTS', {
             chatId, 

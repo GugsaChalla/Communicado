@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {findUsers, clearUsers} from '../store/actions/friendsActions';
 import FoundFriendCard from './FoundFriendCard';
-import './FindForm.css';
+import './css/FindForm.css';
 
 // Component that allows a user to type a name and finds all users
 class FindForm extends Component {

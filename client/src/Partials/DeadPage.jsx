@@ -1,7 +1,7 @@
 import React from 'react';
 import {withRouter,Link} from 'react-router-dom';
 import brokenLink from '../../src/images/brokenLing.jpg';
-import './DeadPage.css';
+import './css/DeadPage.css';
 
 function DeadPage(props){
     

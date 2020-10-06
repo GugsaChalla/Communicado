@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import {withRouter, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {signUp} from '../../store/actions/authActions';
-import './Signup.css'
+import {withAlert} from 'react-alert';
+import './css/Signup.css'
 
 class Signup extends Component {
     constructor() {
@@ -36,9 +37,9 @@ class Signup extends Component {
     handleSubmit(evt) {
         evt.preventDefault();
 
-        const {dispatch} = this.props;
+        const {dispatch, alert} = this.props;
 
-        dispatch(signUp(this.state));
+        dispatch(signUp(this.state, alert));
     }
 
     render() {
@@ -65,6 +66,7 @@ class Signup extends Component {
                         maxLength='30'
                         placeholder="First Name"
                         className="Signup-input"
+                        required
                     />
 
                     <input 
@@ -76,6 +78,7 @@ class Signup extends Component {
                         maxLength='30'
                         placeholder="Last Name"
                         className="Signup-input"
+                        required
                     />
 
                     <br/>
@@ -89,6 +92,7 @@ class Signup extends Component {
                         maxLength='50'
                         placeholder="Email"
                         className="Signup-input Signup-input-long"
+                        required
                     />
 
                     <br/>
@@ -102,6 +106,7 @@ class Signup extends Component {
                         maxLength='50'
                         placeholder="Password"
                         className="Signup-input"
+                        required
                     />
 
                     <input 
@@ -113,6 +118,7 @@ class Signup extends Component {
                         maxLength='50'
                         placeholder="Confirm Password"
                         className="Signup-input"
+                        required
                     />
 
                     <br/>
@@ -133,4 +139,4 @@ class Signup extends Component {
 // Map signup from store into props for Signup
 const mapDispatchToProps = (dispatch) => ({dispatch});
 
-export default withRouter(connect(null, mapDispatchToProps)(Signup));
+export default withRouter(connect(null, mapDispatchToProps)(withAlert()(Signup)));

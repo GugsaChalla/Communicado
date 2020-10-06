@@ -10,11 +10,12 @@ import Settings from './Pages/Settings/Settings';
 import Friends from './Pages/Friends/Friends.jsx';
 import Notifications from './Pages/Notifications/Notifications.jsx';
 import Navbar from './Partials/Navbar';
-import Messages from './Pages/Messages/Messages'
+import Messages from './Pages/Messages/Messages';
+import DeadPage from './Partials/DeadPage';
 import socket from 'socket.io-client';
 import {handleSocketEvents} from './socket/socketEvents';
 import {ToastContainer} from 'react-toastify';
-import DeadPage from './Partials/DeadPage';
+import './App.css';
 
 let io;
 

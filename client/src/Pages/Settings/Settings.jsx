@@ -2,7 +2,10 @@ import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import * as profileActions from '../../store/actions/profileActions';
-import './Settings.css';
+import {withAlert} from 'react-alert';
+import {confirmAlert} from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+import './css/Settings.css';
 
 // Settings Page
 class Settings extends Component{
@@ -53,12 +56,12 @@ class Settings extends Component{
 
         // Destructure 
         const {firstName, lastName} = this.state;
-        const {uid, dispatch} = this.props;
+        const {uid, dispatch, alert} = this.props;
 
         const {changeUserName} = profileActions;
 
         // Change name based on what is given in redux client store
-        dispatch(changeUserName(uid, firstName, lastName));
+        dispatch(changeUserName(uid, firstName, lastName, alert));
 
         // Empty state
         this.setState({firstName: "",lastName:""});
@@ -70,10 +73,10 @@ class Settings extends Component{
 
         // Destructure
         const  {currPwd, newPwd, confirmPwd} = this.state;
-        const {uid, dispatch} = this.props;
+        const {uid, dispatch, alert} = this.props;
 
         const {changePwd} = profileActions;
-        dispatch(changePwd(uid, currPwd, newPwd, confirmPwd));
+        dispatch(changePwd(uid, currPwd, newPwd, confirmPwd, alert));
 
         // Empty state
         this.setState({
@@ -87,16 +90,19 @@ class Settings extends Component{
     deleteUser(e){
         e.preventDefault();
 
-        // Show window to delete
-        if(!window.confirm("Are you sure you want to delete your account?")){
-            return;
-        }
-
-        // If yes, delete
         const {uid, dispatch} = this.props;
         const {deleteUser} = profileActions;
 
-        dispatch(deleteUser(uid));  
+        const  confirmDeleteAccount = () => { dispatch(deleteUser(uid)); }
+
+        confirmAlert({
+            title: 'Communicado',
+            message: 'Are you sure you want to delete your account?',
+            buttons: [
+                {label: 'Yes', onClick: confirmDeleteAccount},
+                {label: 'No', onClick: () => {return;}}
+            ]
+        });
     }
 
     render(){
@@ -222,4 +228,4 @@ const mapStateToProps = (state) =>{
 // Map functions to props from store
 const mapDispatchToProps = (dispatch) => ({dispatch});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Settings);
+export default connect(mapStateToProps, mapDispatchToProps)(withAlert()(Settings));

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {withRouter, Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {io} from '../App';
-import './Navbar.css'
+import './css/Navbar.css'
 
 // Navbar shown on all pages other than Signup and Login
 class Navbar extends Component {

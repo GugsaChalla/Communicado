@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {loadProfilePic} from '../../store/actions/profileActions';
 import loading from '../../images/loading.jpg';
-import './UserComposedTo.css';
+import './css/UserComposedTo.css';
 
 class UserComposedTo extends Component{
     constructor(){

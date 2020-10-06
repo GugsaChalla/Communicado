@@ -20,11 +20,15 @@
 
 .delete {
     font-size: 2rem;
-    color: red;
+    color: #e03838;
 }
 
 .delete i {
     cursor: pointer;
+}
+
+.delete i:hover{
+    color: red;
 }
 
 .msg {
@@ -33,4 +37,8 @@
 
 .msg i {
     cursor: pointer;
+}
+
+.msg i:hover{
+    color: gray;
 }

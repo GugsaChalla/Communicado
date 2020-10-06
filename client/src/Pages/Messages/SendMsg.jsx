@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
 import * as msgActions from '../../store/actions/messagesActions';
 import {io} from '../../App';
-import './SendMsg.css';
+import './css/SendMsg.css';
 
 let timeOuts = []
 
@@ -197,7 +197,10 @@ class SendMsg extends Component{
             <div className= "send-msg">
                 {photo? 
                     (<div className = 'photo text-white d-inline-block'>
-                        {photo[0].name}
+                        {photo[0].name.length > 30 ? 
+                            (photo[0].name.substring(0, 27) + "..."): 
+                            photo[0].name
+                        }
 
                         <i className = 'fas fa-times' onClick = {this.detachPhoto}/>
                     </div>):

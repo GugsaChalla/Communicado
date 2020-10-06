@@ -3,7 +3,7 @@ import {withRouter} from 'react-router-dom';
 import * as msgActions from '../../store/actions/messagesActions';
 import {loadProfilePic, getUserData} from '../../store/actions/profileActions';
 import loading from '../../images/loading.jpg';
-import './MessageCard.css';
+import './css/MessageCard.css';
 
 class MessageCard extends Component {
     constructor(){

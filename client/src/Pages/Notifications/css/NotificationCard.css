@@ -1,0 +1,19 @@
+.NotificationCard{
+    max-width: 800px;
+    padding: 20px;
+    margin: auto;
+}
+
+.NotificationCard:hover{
+    box-shadow: 0 0 2px black;
+}
+
+.NotificationCard img{
+    width: 10rem;
+    height: 10rem;
+}
+
+.NotificationCard button:focus{
+    box-shadow: none;
+    outline: none;
+}

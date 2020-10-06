@@ -3,11 +3,20 @@ import axios from 'axios';
 
 const config = {headers: {'content-type': 'application/json'}};
 
-export const getRecipients = (queryResults) =>{
-    return (dispatch) =>{
+export const getRecipients = (uid, name, recipients) =>{
+    return async (dispatch) => {
+        let composerResults = [];
+
+        if(name){
+            const data = {uid, name, recipients};
+    
+            const response = await axios.post('http://localhost:5000/chats/composer', data , config);
+            composerResults = response.data;
+        }
+
         dispatch({
             type: types.LOAD_COMPOSER_RESULTS, 
-            queryResults
+            composerResults
         });
     }
 }
@@ -365,4 +374,16 @@ export const checkIfChatExists = async (uid, memberId) => {
 export const getChat = async (chatId) => {
     const response = await axios.get(`http://localhost:5000/chats/${chatId}`);
     return response.data;
+}
+
+export const clearTyping = () => {
+    return (dispatch) => {
+        dispatch({type: types.CLEAR_TYPING});
+    }
+}
+
+export const clearChatOnDisplay = () => {
+    return (dispatch) => {
+        dispatch({type: types.CLEAR_DISPLAYED_CHAT});
+    }
 }

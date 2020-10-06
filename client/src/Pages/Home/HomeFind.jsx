@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {findUsers} from '../../store/actions/friendsActions';
+import {findUsers, clearUsers} from '../../store/actions/friendsActions';
 import SearchProfileCard from './SearchProfileCard';
 
 class HomeFind extends Component {
@@ -26,11 +26,10 @@ class HomeFind extends Component {
 
         // If empty query, return
         if (query.trim() === '') {
-            return;
+            dispatch(clearUsers());
+        } else{
+            dispatch(findUsers(query, uid));
         }
-
-        // If not empty, find Users based on query
-        dispatch(findUsers(query, uid));
     }
 
     render() {
@@ -38,7 +37,7 @@ class HomeFind extends Component {
         const {query} = this.state;
 
         return (
-            <div className="HomeFind col-lg-3">
+            <div className="HomeFind col-lg-12 col-xl-3 mb-4 mb-sm-4 mb-md-4 mb-lg-4 mb-xl-0">
                 <div className="card text-center d-flex justify-content-center homeCard w-100 h-100">
 
                     {/* Card Header */}

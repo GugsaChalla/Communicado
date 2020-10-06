@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import {getFriendStatus} from '../store/actions/friendsActions';
+import {getFriendStatus, changeFriendStatus} from '../store/actions/friendsActions';
 import {loadProfilePic} from '../store/actions/profileActions';
+import {confirmAlert} from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import {io} from '../App';
-import './FoundFriendCard.css'
+import './css/FoundFriendCard.css'
 
 // Found friend card displayed in the FindForm to show possible new friends
 class FoundFriendCard extends Component {
@@ -34,7 +36,7 @@ class FoundFriendCard extends Component {
     }
 
     // Send friend request to client when user clicks btn to add friend
-    handleClick(){
+    async handleClick(){
         // Destructure
         const {status} = this.state;
         const {_id, firstName, lastName} = this.props.user;
@@ -42,37 +44,50 @@ class FoundFriendCard extends Component {
 
         // Add Friend button
         if(status === 'Add Friend'){
+            const msg = await changeFriendStatus(uid, _id, status);
+
             io.emit("CHANGE_FRIEND_STATUS", {
-                status, 
                 uid, 
-                friendId: _id
+                friendId: _id,
+                msg
             });
             
             this.setState({status: 'Pending'});
         }
         // Pending Button
         else if(status === 'Pending'){
+            const msg = await changeFriendStatus(uid, _id, status);
+
             io.emit("CHANGE_FRIEND_STATUS", {
-                status, 
-                uid, 
-                friendId: _id
+                uid,
+                friendId: _id,
+                msg
             });
             
             this.setState({status: 'Add Friend'});
         }
         // Already friends. If clicked, will delete friend from friend list if user confirms
         else {
-            if(!window.confirm(`Are you sure you want to unfriend ${firstName} ${lastName}?`)){
-                return;
+            const confirmDeleteFriend = async () => {
+                const msg = await changeFriendStatus(uid, _id, status);
+
+                io.emit("CHANGE_FRIEND_STATUS", {
+                    uid, 
+                    friendId: _id,
+                    msg
+                });
+                
+                this.setState({status: 'Add Friend'});
             }
 
-            io.emit("CHANGE_FRIEND_STATUS", {
-                status, 
-                uid, 
-                friendId: _id
+            confirmAlert({
+                title: 'Communicado',
+                message: `Are you sure you want to unfriend ${firstName} ${lastName}`,
+                buttons: [
+                    {label: 'Yes', onClick: confirmDeleteFriend},
+                    {label: 'No', onClick: () => {return;}}
+                ]
             });
-            
-            this.setState({status: 'Add Friend'});
         }
     }
 

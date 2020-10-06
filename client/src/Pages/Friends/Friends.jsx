@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import FindForm from '../../Partials/FindForm'
 import FilterForm from '../../Partials/FilterForm'
 import FriendGrid from './FriendGrid'
-import './Friends.css'
+import './css/Friends.css'
 
 // Friends Page composed of separate components in Partials that make up the page
 class Friends extends Component {

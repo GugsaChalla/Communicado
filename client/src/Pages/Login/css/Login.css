@@ -3,7 +3,7 @@
     height: 100%;
     position: fixed;
     background-size: cover;
-    background-image: linear-gradient(rgba(0,0,0,0.5), rgb(0,0,0, 0.1)), url('../../images/background.jpg');
+    background-image: linear-gradient(rgba(0,0,0,0.5), rgb(0,0,0, 0.1)), url('../../../images/background.jpg');
     font-family:'Nunito Sans';
     -webkit-touch-callout: none;
     -webkit-user-select: none; 

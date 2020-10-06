@@ -1,0 +1,80 @@
+.expandChat{
+    height: 100vh;
+    background: #f1f0e8;
+    font-family: 'Helvetica';
+}
+
+.expandChat .profile{
+    width: 100%;
+    background: #036055;
+    height: 60px;
+    padding: 0 10px;
+    position: relative;
+}
+
+.expandChat .profilePic{
+    width: 50px;
+    height: 50px;
+    display: inline-block;
+    border-radius: 50%;
+    margin-right: 10px;
+    margin-bottom: -30px;
+}
+
+.expandChat .profile h2{
+    display: none;
+    line-height: 60px;
+    vertical-align: bottom;
+    color: #fff;
+    font-size: 20px;
+}
+
+.expandChat .chat-box{
+    padding: 20px;
+    overflow-y: auto;
+    max-height: 72vh;
+}
+
+.expandChat .inner-chat-box{
+    margin-bottom: 130px;
+}
+
+@media screen and (min-height: 400px){
+    .expandChat .inner-chat-box{
+        margin-bottom: 100px;
+    }
+}
+
+@media screen and (min-height: 500px){
+    .expandChat .inner-chat-box{
+        margin-bottom: 70px;
+    }
+}
+
+@media screen and (min-height: 600px){
+    .expandChat .inner-chat-box{
+        margin-bottom: 50px;
+    }
+}
+
+@media screen and (min-height: 700px){
+    .expandChat .inner-chat-box{
+        margin-bottom: 20px;
+    }   
+}
+
+@media screen and (min-height: 800px){
+    .expandChat .inner-chat-box{
+        margin-bottom: 10px;
+    }
+}
+
+@media screen and (min-width: 700px){
+    .expandChat .profile h2{
+        display: inline-block;
+    }
+    
+    .expandChat .profilePic{
+        margin-bottom: 13px;
+    }
+}

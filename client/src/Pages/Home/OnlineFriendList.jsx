@@ -3,18 +3,19 @@ import OnlineFriend from './OnlineFriend';
 
 class OnlineFriendList extends Component {
     render() {
-        const {uid, active} = this.props;
+        const {uid, active, dispatch} = this.props;
 
         const onlineFriends = active.map(user =>
             <OnlineFriend 
                 key={user._id} 
                 uid = {uid}
                 user={user}
+                dispatch = {dispatch}
             />
         );
 
         return (
-            <div className="OnlineFriendList col-lg-3">
+            <div className="OnlineFriendList col-lg-12 col-xl-3 mb-4 mb-sm-4 mb-md-4 mb-lg-4 mb-xl-0">
                 <div className="card text-center d-flex justify-content-center homeCard w-100 h-100">
                     
                     {/* Card Header */}
@@ -25,7 +26,7 @@ class OnlineFriendList extends Component {
                     </div>
 
                     {/* Card Body - List of online friends from props */}
-                    <div className="card-body">
+                    <div className="card-body p-0">
                         {onlineFriends}
                     </div>
                 </div>

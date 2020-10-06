@@ -7,8 +7,10 @@ import SearchMsgs from './SearchMsgs';
 import ExpandChat from './ExpandChat';
 import SendMsg from './SendMsg'
 import ComposeMsg from './ComposeMsg';
+import {confirmAlert} from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import axios from 'axios';
-import './Messages.css';
+import './css/Messages.css';
 
 class Messages extends Component {
     constructor(){
@@ -33,7 +35,7 @@ class Messages extends Component {
         const chats = await dispatch(loadChats(uid, this.cancelSource));
         dispatch(seeChats(uid));
 
-        if(chatId === 'home'){
+        if(chatId === 'home' && chats.length !== 0){
             this.props.history.push(`/chat/${chats[0]._id}`);
         }
 
@@ -58,15 +60,6 @@ class Messages extends Component {
         }
     }
 
-    componentWillUnmount(){
-        const {dispatch} = this.props;
-        const {clearChats} = msgActions;
-
-        dispatch(clearChats());
-
-        this.cancelSource.cancel();
-    }
-
     handleComposer(){
         const {chats, recipients} = this.props;
 
@@ -77,13 +70,26 @@ class Messages extends Component {
         }
 
         else{
-            const msg = "Are you sure you want to exit?";
+            const exitComposer = () => {this.props.history.goBack();}
 
-            if(chats.length === 0 || (recipients.length !== 0 && !window.confirm(msg))){
+            if(chats.length === 0){
                 return;
             }
 
-            this.props.history.goBack();
+            if(recipients.length !== 0){
+                confirmAlert({
+                    title: 'Communicado',
+                    message: 'Are you sure you want to exit?',
+                    buttons: [
+                        {label: 'Yes', onClick: exitComposer},
+                        {label: 'No', onClick: () => {return;}}
+                    ]
+                });
+            }
+
+            else{
+                exitComposer();
+            }
         }
     }
 
@@ -91,10 +97,19 @@ class Messages extends Component {
         this.setState({clearQuery:true});
     }
 
+    componentWillUnmount(){
+        const {dispatch} = this.props;
+        const {clearChats} = msgActions;
+
+        dispatch(clearChats());
+
+        this.cancelSource.cancel();
+    }
+
     render() {
         const {
             uid,
-            queryResults,        
+            composerResults,        
             recipients,
             chats,
             typingOnDisplay,
@@ -148,7 +163,7 @@ class Messages extends Component {
                             {chatId === 'new'? 
                                 (<ComposeMsg 
                                     uid={uid}
-                                    queryResults = {queryResults}
+                                    composerResults = {composerResults}
                                     recipients = {recipients}
                                     composerChatId = {composerChatId}
                                     dispatch = {dispatch}
@@ -177,7 +192,7 @@ class Messages extends Component {
 
 const mapStateToProps = (state) => {
     return{
-        queryResults: state.messages.queryResults,
+        composerResults: state.messages.composerResults,
         recipients: state.messages.recipients,
         chats: state.messages.chats,
         typingOnDisplay: state.messages.typingOnDisplay,

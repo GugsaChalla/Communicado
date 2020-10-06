@@ -1,7 +1,7 @@
 import * as types from '../constants/actionTypes';
 
 const initState = {
-    queryResults: [],
+    composerResults: [],
     recipients: [],
     chats: [],
     msgsOnDisplay: [],
@@ -17,7 +17,7 @@ const messagesReducer = (state=initState, action) =>{
         case types.LOAD_COMPOSER_RESULTS:
             return{
                 ...state,
-                queryResults: [...action.queryResults]
+                composerResults: [...action.composerResults]
             }
         case types.UPDATE_RECIPIENTS:
             return{
@@ -86,7 +86,17 @@ const messagesReducer = (state=initState, action) =>{
                 ...state,
                 msgsOnDisplay: [...state.msgsOnDisplay, action.newMessage]
             }
-        
+        case types.CLEAR_TYPING:
+            return{
+                ...state,
+                typingOnDisplay: []
+            }
+        case types.CLEAR_DISPLAYED_CHAT:
+            return{
+                ...state,
+                msgsOnDisplay: [],
+                chatIdOnDisplay: null
+            }
         default:
             return state;
     }

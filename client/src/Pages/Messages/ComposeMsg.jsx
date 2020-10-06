@@ -2,8 +2,7 @@ import React,{Component} from 'react';
 import * as msgActions from '../../store/actions/messagesActions';
 import ExpandChat from './ExpandChat';
 import UserComposedTo from './UserComposedTo';
-import {io} from '../../App';
-import "./ComposeMsg.css";
+import './css/ComposeMsg.css';
 
 class ComposeMsg extends Component{
     constructor(){
@@ -18,27 +17,27 @@ class ComposeMsg extends Component{
         this.deleteRecipient = this.deleteRecipient.bind(this);
     }
 
-    handleChange(e){
-        const {uid, recipients} = this.props;
-
-        io.emit('GET_RECIPIENTS', {
-            uid,
-            recipients, 
-            name: e.target.value
-        });
+    async handleChange(e){
+        const {uid, recipients, dispatch} = this.props;
+        const {getRecipients} = msgActions;
 
         this.setState({composedTo: e.target.value});
+
+        dispatch(getRecipients(uid, e.target.value, recipients));
     }
 
     async addRecipient(user){
         const {uid, recipients, dispatch} = this.props;
 
         const {
+            getRecipients,
             updateRecipients, 
             checkIfChatExists, 
             renderComposerChat,
             clearComposerChat
         } = msgActions;
+
+        dispatch(getRecipients(uid, '', recipients));
 
         const chatId = (recipients.length === 0) ?
                         await checkIfChatExists(uid, user._id):
@@ -51,13 +50,6 @@ class ComposeMsg extends Component{
         }
 
         dispatch(updateRecipients([...recipients, user]));
-
-        io.emit('GET_RECIPIENTS', {
-            uid,
-            recipients: [],
-            name: ''
-        });
-
         this.setState({composedTo: ''});
     }
 
@@ -94,7 +86,7 @@ class ComposeMsg extends Component{
     }
     
     render(){
-        const {queryResults, recipients, composerChatId} = this.props;
+        const {composerResults, recipients, composerChatId} = this.props;
         const {composedTo} = this.state;
 
         return(
@@ -118,7 +110,7 @@ class ComposeMsg extends Component{
                </header>
 
                <div className = 'results-list'>
-                    {queryResults.map(user =>
+                    {composerResults.map(user =>
                         <UserComposedTo 
                             key={user._id}
                             user = {user}

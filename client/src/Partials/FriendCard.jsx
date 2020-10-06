@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {removeFriend} from '../store/actions/friendsActions';
 import {loadProfilePic} from '../store/actions/profileActions';
+import {removeFriend, changeFriendStatus} from '../store/actions/friendsActions';
 import {updateRecipients, checkIfChatExists} from '../store/actions/messagesActions';
+import {confirmAlert} from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import {io} from '../App';
-import './FriendCard.css'
+import './css/FriendCard.css'
 
 // Friend card to be rendered on friends page for each friend
 class FriendCard extends Component {
     constructor(){
         super();
-        // Init state
 
         this.state = {
             imgURL: null
@@ -35,17 +36,25 @@ class FriendCard extends Component {
         const {_id, firstName, lastName} = this.props.user;
         const {uid, friends, dispatch} = this.props;
 
-        if(!window.confirm(`Are you sure you want to unfriend ${firstName} ${lastName}?`)){
-            return;
-        }
+        const confirmDeleteFriend = async () => {
+            const msg = await changeFriendStatus(uid, _id, "Friends");
         
-        dispatch(removeFriend(_id, friends));
+            io.emit("CHANGE_FRIEND_STATUS", {
+                uid,
+                friendId: _id,
+                msg
+            });
 
-        // Emit change of friend status to server so that Add Friend is next option
-        io.emit("CHANGE_FRIEND_STATUS", {
-            status: "Friends", 
-            uid, 
-            friendId: _id
+            dispatch(removeFriend(_id, friends));
+        }
+
+        confirmAlert({
+            title: 'Communicado',
+            message: `Are you sure you want to unfriend ${firstName} ${lastName}`,
+            buttons: [
+                {label: 'Yes', onClick: confirmDeleteFriend},
+                {label: 'No', onClick: () => {return;}}
+            ]
         });
     }
 

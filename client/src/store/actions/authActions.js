@@ -5,7 +5,7 @@ import axios from 'axios';
 const config = {headers: {'Content-Type': 'application/json'}};
 
 // User login given a set of credentials
-export const login = (credentials) => {
+export const login = (credentials, alert) => {
     return async (dispatch) =>{
         const data = {...credentials};
 
@@ -21,18 +21,18 @@ export const login = (credentials) => {
         }
         
         else {
-            alert(msg);
+            alert.error(msg);
         }
     }
 }
 
 // User signup function with given credentals
-export const signUp = (credentials) => {
+export const signUp = (credentials, alert) => {
     return async (dispatch) =>{
         const {firstName, lastName} = credentials;
 
         if(!isValidName(firstName) || !isValidName(lastName)){
-            alert("Invalid name: First name and last name should only contain letters!");
+            alert.error("Invalid name: First name and last name should only contain letters!");
             return;    
         }
 
@@ -51,7 +51,7 @@ export const signUp = (credentials) => {
         } 
         
         else {
-            alert(msg)
+            alert.error(msg)
         }
     }
 }

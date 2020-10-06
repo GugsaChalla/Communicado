@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import {withRouter, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {login} from '../../store/actions/authActions';
-import './Login.css';
+import {withAlert} from 'react-alert';
+import './css/Login.css';
 
 // Login page of simple credential requirements
 class Login extends Component {
@@ -34,9 +35,9 @@ class Login extends Component {
     handleSubmit(e){
         e.preventDefault();
         
-        const {dispatch} = this.props;
+        const {dispatch, alert} = this.props;
 
-        dispatch(login(this.state));
+        dispatch(login(this.state, alert));
     }
 
     render(){
@@ -111,4 +112,4 @@ class Login extends Component {
 // Add login function from redux store to attempt user login based on credentials
 const mapDispatchToProps = (dispatch) => ({dispatch});
 
-export default withRouter(connect(null, mapDispatchToProps)(Login));
+export default withRouter(connect(null, mapDispatchToProps)(withAlert()(Login)));

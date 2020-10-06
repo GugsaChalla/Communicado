@@ -3,7 +3,8 @@ import {loadProfilePic, getUserData} from '../../store/actions/profileActions';
 import {getReadReceipts} from '../../store/actions/messagesActions';
 import ImageModal from './ImageModal';
 import loading from '../../images/loading.jpg';
-import './MessageBubble.css';
+import moment from 'moment';
+import './css/MessageBubble.css';
 
 class MessageBubble extends Component{
     constructor(){
@@ -20,14 +21,13 @@ class MessageBubble extends Component{
     }
 
     async componentDidMount(){
-        const {senderId, handleScroll} = this.props;
+        const {senderId} = this.props;
 
         const senderImgURL = await loadProfilePic(senderId);
         await this.loadReadReceipts();
         await this.getMemberName();
    
         this.setState({senderImgURL});
-        handleScroll();
     }
 
     async componentDidUpdate(prevProps){
@@ -39,24 +39,25 @@ class MessageBubble extends Component{
     }
 
     async loadReadReceipts(){
-        const {readBy, senderId} = this.props;
+        const {readBy, senderId, handleScroll} = this.props;
         
         const readReceipts = await getReadReceipts(readBy, senderId, loadProfilePic);
 
         this.setState({readReceipts});
+        handleScroll();
     }
 
     async getMemberName(){
         const{senderId} = this.props;
         
         const user = await getUserData(senderId);
-        const name = user.firstName+" "+ user.lastName;
+        const name = user.firstName+ " " + user.lastName;
         
         this.setState({name});
     }
 
     render(){
-        const {uid, msgId, senderId, chatId, content, image} = this.props;
+        const {uid, msgId, senderId, chatId, content, timeSent, image} = this.props;
         const {senderImgURL, readReceipts, name} = this.state;
 
         const msgPosition = (uid === senderId)? 
@@ -68,12 +69,20 @@ class MessageBubble extends Component{
                 <div className='msg-container'>
                 
                     {msgPosition === 'msg-l'? 
-                        <img src = {senderImgURL? senderImgURL: loading} alt ='profile pic'/>: 
+                        (<img 
+                            src = {senderImgURL? senderImgURL: loading} 
+                            alt ='profile pic'
+                            data-toggle='tooltip' 
+                            data-placement='top'
+                            title= {moment(timeSent).calendar()}
+                        />): 
                         null
                     }
                     
                     <div className ={`msg ${msgPosition} my-1`}>
-                        <strong className='usersName'>{name}</strong>
+                        <p className='mb-4'>
+                            <strong className='user-name'>{name}</strong>
+                        </p>
                         
                         <div>
                             {image?
@@ -82,6 +91,7 @@ class MessageBubble extends Component{
                                 </div>):
                                 null
                             }
+
                             {content}
                         </div>
 
@@ -97,14 +107,24 @@ class MessageBubble extends Component{
                     </div>
                   
                     {msgPosition === 'msg-r'? 
-                        <img src = {senderImgURL? senderImgURL: loading} alt ='profile pic'/>:
+                         (<img 
+                            src = {senderImgURL? senderImgURL: loading} 
+                            alt ='profile pic'
+                            data-toggle='tooltip' 
+                            data-placement='bottom'
+                            title= {moment(timeSent).calendar()}
+                        />): 
                         null
                     }
                 </div>
 
                 {image? 
-                    (<div className='modal fade' id={`${msgId}-image`} data-backdrop='false'>
-                        <ImageModal msgId={msgId} chatId={chatId}/>
+                    (<div className='modal fade' id={`${msgId}-image`} data-backdrop='static'>
+                        <ImageModal 
+                            msgId={msgId} 
+                            chatId={chatId} 
+                            timeSent={timeSent}
+                        />
                     </div>):
                     null
                 }

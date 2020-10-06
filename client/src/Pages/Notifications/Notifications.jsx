@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {uncolorNotif, removeNotification} from '../../store/actions/notificationsActions';
-import './Notifications.css'
+import './css/Notifications.css'
 import NotificationCard from './NotificationCard';
 
 class Notifications extends Component{

@@ -56,7 +56,7 @@ export const changeProfilePic = (uid, imgFile) => {
 }
 
 // Change users name based on a given first name, last name or both
-export const changeUserName = (uid, firstName, lastName) =>{
+export const changeUserName = (uid, firstName, lastName, alert) =>{
     return async (dispatch) => {
         const data = {uid, firstName, lastName}
 
@@ -72,12 +72,16 @@ export const changeUserName = (uid, firstName, lastName) =>{
             });
         }
 
-        alert(msg);
+        if(msg === 'Both inputs are blank: your name has not been changed.'){
+            alert.error(msg);
+        } else{
+            alert.success(msg);
+        }
     }
 }
 
 // Change passwords by providing old password and new password twice
-export const changePwd = (uid, currPwd, newPwd, confirmPwd) => {
+export const changePwd = (uid, currPwd, newPwd, confirmPwd, alert) => {
     return async () => {
         const data = {uid, currPwd, newPwd, confirmPwd}
 
@@ -85,7 +89,11 @@ export const changePwd = (uid, currPwd, newPwd, confirmPwd) => {
         const response = await axios.post('http://localhost:5000/users/changepwd', data, config);
         const {msg} = response.data;
 
-        alert(msg);
+        if(msg !== 'Your password has been changed'){
+            alert.error(msg);
+        } else{
+            alert.success(msg);
+        }
     }
 }
 
@@ -93,10 +101,7 @@ export const changePwd = (uid, currPwd, newPwd, confirmPwd) => {
 export const deleteUser = (uid) =>{
     return async () =>{ 
         // Delete user from DB
-        const response = await axios.delete(`http://localhost:5000/users/${uid}`);
-        const {msg} =response.data;
-        
-        alert(msg);
+        await axios.delete(`http://localhost:5000/users/${uid}`);
         
         window.localStorage.clear();
         window.location.href='/';

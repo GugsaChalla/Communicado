@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {filterMsgCards} from '../../store/actions/messagesActions';
-import './SearchMsgs.css';
+import './css/SearchMsgs.css';
 
 class SearchMsgs extends Component{
     constructor(){

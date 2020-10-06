@@ -3,19 +3,32 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-import rootReducer from './store/reducers/rootReducer';
+import {Provider as AlertProvider} from 'react-alert';
+import Alert from './Partials/Alert';
 
+import rootReducer from './store/reducers/rootReducer';
 import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
 
 // Create central store of data for client
-const store =createStore(rootReducer, applyMiddleware(thunk));
+const store=createStore(rootReducer, applyMiddleware(thunk));
+
+const AlertTemplate = ({style, options, message, close}) =>(
+    <Alert
+      style = {style}
+      options = {options}
+      message = {message}
+      close = {close}
+    />
+);
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store = {store}>
-      <App/>
+      <AlertProvider template={AlertTemplate}>
+        <App/>
+      </AlertProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

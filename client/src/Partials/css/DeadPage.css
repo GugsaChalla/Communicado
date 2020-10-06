@@ -1,0 +1,15 @@
+.dead-page{
+    max-width: 800px;
+    margin: 50px auto;
+    text-align: center;
+}
+
+.dead-page img{
+    height: 300px;
+    width: 300px;
+}
+
+.dead-page .dead-page-link{
+    font-size: 2rem;
+    display: block;
+}

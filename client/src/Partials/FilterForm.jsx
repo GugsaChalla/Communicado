@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {findFriends, loadFriends} from '../store/actions/friendsActions';
-import './FilterForm.css'
+import './css/FilterForm.css'
 
 // Class that creates form that filters through a friends list 
 // Takes up a row, goes in a container

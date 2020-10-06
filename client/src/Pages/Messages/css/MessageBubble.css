@@ -29,11 +29,11 @@
     float: right;
 }
 
-.msg-container .read img{
+.msg-container .read-receipts img{
     float: right;
-    width: 1.1rem;
-    height: 1.1rem;
-    margin-left: 7px;
+    width: 0.8rem;
+    height: 0.8rem;
+    margin-left: 5px;
     cursor: auto;
 }
 
@@ -70,11 +70,18 @@
     height: 15px;
 }
 
-
-.msg-container .msg.msg-r .usersName{
+.msg-container .msg.msg-r .user-name{
     float: left;
 }
 
-.msg-container .msg.msg-l .usersName{
+.msg-container .msg.msg-l .user-name{
     float: left;
+}
+
+.expandChat .modal {
+    background: rgba(0, 0, 0, 0.5); 
+}
+
+.modal-backdrop {
+     display: none;
 }

@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import {loadProfilePic, changeProfilePic} from '../../store/actions/profileActions';
 import moment from 'moment';
 import loading from '../../images/loading.jpg';
-import './ProfileCard.css'
+import './css/ProfileCard.css'
 
 // Component that shows a Users profile card on the home page
 class ProfileCard extends Component {
@@ -39,7 +39,7 @@ class ProfileCard extends Component {
         const {imgURL} = this.state;
 
         return (
-            <div className="ProfileCard col-lg-4">
+            <div className="ProfileCard col-lg-12 col-xl-4 mb-4 mb-sm-4 mb-md-4 mb-lg-4 mb-xl-0">
                 <div className="card text-center d-flex justify-content-center homeCard w-100 h-100">
 
                     {/* Card Header */}

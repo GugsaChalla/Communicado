@@ -1,6 +1,7 @@
 const {User} = require('../models/user');
 const {Notification} = require('../models/notif');
 
+const bcrypt = require('bcrypt');
 const upload = require('../app').profilePicUpload;
 const path = require('path');
 const fs = require('fs');
@@ -10,20 +11,9 @@ exports.login = async (req,res) => {
     const {email, password} =req.body;
 
     // Find user based on email
-    const user = await User.findOne({email});
+    const user = await User.login(email, password);
 
-    //if no email found inform user
-    if(user === null){
-        res.json({msg: 'Email is not registered with Communicado'});
-    }
-
-    else if(password !== user.password){
-        res.json({msg: 'Incorrect password'});
-    }
-
-    else{
-        res.json({uid: user._id, msg: 'Success'});
-    }
+    res.json(user);
 }
 
 // Signup function for users.
@@ -151,22 +141,19 @@ exports.changePwd = async (req, res) =>{
     const user = await User.findOne({_id: uid});
     const {password} = user;
 
-    if(password !== currPwd){
+    const valid = await bcrypt.compare(currPwd, password);
+
+    if(!valid){
         res.json({msg: 'Your password is incorrect'});
     }
 
-    // Check if passwords match
     else if(newPwd !== confirmPwd){
         res.json({msg: 'New password does not match confirm password'});
     }
 
-    // If old password is correct, successfully update password
     else{
         await User.updateOne({_id: uid}, {password: newPwd});
-
-        res.json({
-            msg: 'Your password has been changed'
-        });
+        res.json({msg: 'Your password has been changed'});
     }
 }
 
